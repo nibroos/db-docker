@@ -1,0 +1,24 @@
+# Use the official MySQL 5.7 image as a base
+FROM mariadb:10
+
+# Copy the custom configuration file into the container
+# COPY configs/mariadb10/my.cnf /etc/mysql/my.cnf
+COPY configs /configs
+
+# Set the correct permissions for configuration files
+RUN chmod -R 644 /configs/mariadb10/my.cnf
+
+# Copy the custom configuration file into the container
+RUN mv /configs/mariadb10/my.cnf /etc/mysql/my.cnf
+
+# Remove the copied configs directory if not needed
+RUN rm -rf /configs
+
+# Set the correct permissions for the configuration file
+RUN chmod 644 /etc/mysql/my.cnf
+
+# Set the entrypoint to start the MySQL server
+ENTRYPOINT ["docker-entrypoint.sh"]
+
+# Set the default command to start the MySQL server
+CMD ["mysqld"]

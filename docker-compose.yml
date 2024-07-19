@@ -3,6 +3,9 @@ name: db-mysql
 
 services:
   mysql57:
+    build:
+      context: .
+      dockerfile: Dockerfile.mysql57
     image: mysql:5.7
     container_name: mysql57
     environment:
@@ -15,9 +18,11 @@ services:
       - "${MYSQL57_PORT}:3306"
     volumes:
       - mysql57_data:/var/lib/mysql
-      - ./configs/mysql57/my.cnf:/etc/mysql/my.cnf
 
   mysql8:
+    build:
+      context: .
+      dockerfile: Dockerfile.mysql8
     image: mysql:8
     container_name: mysql8
     environment:
@@ -30,9 +35,11 @@ services:
       - "${MYSQL8_PORT}:3306"
     volumes:
       - mysql8_data:/var/lib/mysql
-      - ./configs/mysql8/my.cnf:/etc/mysql/my.cnf
 
   mariadb10:
+    build:
+      context: .
+      dockerfile: Dockerfile.mariadb10
     image: mariadb:10
     container_name: mariadb10
     environment:
@@ -44,9 +51,11 @@ services:
       - "${MARIADB10_PORT}:3306"
     volumes:
       - mariadb10_data:/var/lib/mysql
-      - ./configs/mariadb10/my.cnf:/etc/mysql/my.cnf
 
   mariadb11:
+    build:
+      context: .
+      dockerfile: Dockerfile.mariadb11
     image: mariadb:11
     container_name: mariadb11
     environment:
@@ -58,7 +67,6 @@ services:
       - "${MARIADB11_PORT}:3306"
     volumes:
       - mariadb11_data:/var/lib/mysql
-      - ./configs/mariadb11/my.cnf:/etc/mysql/my.cnf
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
