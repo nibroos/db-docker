@@ -1,5 +1,4 @@
-version: '3.8'
-name: db-mysql
+name: db
 
 services:
   mysql57:
@@ -81,6 +80,32 @@ services:
       - mariadb10
       - mariadb11
 
+  postgres:
+    build:
+      context: .
+      dockerfile: Dockerfile.postgres
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    ports:
+      - "${PGADMIN_PORT}:80"
+    depends_on:
+      - postgres
+
   nginx:
     image: nginx:alpine
     container_name: nginx
@@ -96,3 +121,4 @@ volumes:
   mysql8_data:
   mariadb10_data:
   mariadb11_data:
+  postgres_data:

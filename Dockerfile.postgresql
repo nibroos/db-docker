@@ -1,0 +1,23 @@
+# Use the official PostgreSQL image as a base
+FROM postgres:latest
+
+# Copy the custom configuration file into the container (if needed)
+COPY configs /configs
+
+# Set the correct permissions for configuration files
+RUN chmod -R 644 /configs/postgres/postgresql.conf
+
+# Copy the custom configuration file into the container
+RUN mv /configs/postgres/postgresql.conf /etc/postgresql/postgresql.conf
+
+# Remove the copied configs directory if not needed
+RUN rm -rf /configs
+
+# Set the correct permissions for the configuration file
+RUN chmod 644 /etc/postgresql/postgresql.conf
+
+# Set the entrypoint to start the PostgreSQL server
+ENTRYPOINT ["docker-entrypoint.sh"]
+
+# Set the default command to start the PostgreSQL server
+CMD ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]
